@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagination</title>
+    <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+    crossorigin="anonymous"
+  />
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"
+  ></script>
+</head>
+<body>
+    <script>
+        var currentPageNumber = 0;
+        var data;
+        var request = new XMLHttpRequest();
+        request.open("GET","https://raw.githubusercontent.com/Rajavasanthan/jsondata/master/pagenation.json",true);
+        request.send();
+        request.onload = ()=>{
+            data = JSON.parse(request.response);
+        var div = document.createElement('div')
+        div.setAttribute('class','container');
+        document.body.append(div);
+        var table = document.createElement("table");
+        table.setAttribute("class",'table');
+        div.append(table);
+        table.classList.add("border")
+        var thead = document.createElement('thead');
+        var tr = document.createElement('tr');
+        var th = document.createElement('th');
+        th.textContent= "ID";
+        var th2 = document.createElement('th');
+        th2.textContent= "Name";
+        var th3 = document.createElement('th');
+        th3.textContent= "Email";
+        tr.append(th,th2,th3);
+        thead.append(tr);
+        table.append(thead);
+        var tbody = document.createElement('tbody');
+        table.append(tbody);
+
+        var button = document.createElement('button');
+        button.setAttribute("class",'btn btn-dark');
+        button.textContent="Previous";
+        button.addEventListener('click', ()=> {
+            foo(data,"Previous");
+          }
+          );
+        div.append(button);
+
+        var button1 = document.createElement('button');
+        button1.setAttribute("class",'btn btn-dark');
+        button1.textContent="1";
+        div.append(button1);
+        button1.addEventListener('click', ()=>{
+          foo(data,"1")
+          }
+        );
+
+        var button2 = document.createElement('button');
+        button2.setAttribute("class",'btn btn-dark');
+        button2.textContent="2";
+        div.append(button2);
+        button2.addEventListener('click', ()=>{foo(data,"2")});
+
+        var button3 = document.createElement('button');
+        button3.setAttribute("class",'btn btn-dark');
+        button3.textContent="3";
+        div.append(button3);
+        button3.addEventListener('click', ()=>{foo(data,"3")});
+
+        var button4 = document.createElement('button');
+        button4.setAttribute("class",'btn btn-dark');
+        button4.textContent="4";
+        div.append(button4);
+        button4.addEventListener('click', ()=>{ foo(data,"4")});
+
+        var button5 = document.createElement('button');
+        button5.setAttribute("class",'btn btn-dark');
+        button5.textContent="5";
+        div.append(button5);
+        button5.addEventListener('click', ()=>{foo(data,"5")});
+
+        var button6 = document.createElement('button');
+        button6.setAttribute("class",'btn btn-dark');
+        button6.textContent="6";
+        div.append(button6);
+        button6.addEventListener('click', ()=>{ foo(data,"6")});
+
+        var button7 = document.createElement('button');
+        button7.setAttribute("class",'btn btn-dark');
+        button7.textContent="7";
+        div.append(button7);
+        button7.addEventListener('click',()=>{ foo(data,"7")});
+
+        var button8 = document.createElement('button');
+        button8.setAttribute("class",'btn btn-dark');
+        button8.textContent="8";
+        div.append(button8);
+        button8.addEventListener('click', ()=>{foo(data,"8")});
+
+        var button9 = document.createElement('button');
+        button9.setAttribute("class",'btn btn-dark');
+        button9.textContent="9";
+        div.append(button9);
+        button9.addEventListener('click',()=>{ foo(data,"9")});
+
+        var button10 = document.createElement('button');
+        button10.setAttribute("class",'btn btn-dark');
+        button10.textContent="10";
+        div.append(button10);
+        button10.addEventListener('click', ()=>{foo(data,"10")});
+
+        var buttonNext = document.createElement('button');
+        buttonNext.setAttribute("class",'btn btn-dark');
+        buttonNext.textContent="Next";
+        div.append(buttonNext);
+        buttonNext.addEventListener('click', ()=>{foo(data,"Next")});
+
+        var start = 1;
+        var end = 10;
+        for (let i= start-1;i<end;i++){
+            createtr(data[i],tbody);
+          }
+
+        function  foo(data,num){
+          tbody.innerHTML="";
+          if(num==='Previous'){
+            console.log("inside foo previous")
+              if(currentPageNumber>=2){
+                currentPageNumber-=1;
+                var start = currentPageNumber*10-9;
+                var end = Math.min(data.length,currentPageNumber*10);
+                for (let i= start-1;i<end;i++){
+                    createtr(data[i],tbody);
+                }
+              }
+              else{
+                var start = 1;
+                var end = 10;
+                for (let i= start-1;i<end;i++){
+                    createtr(data[i],tbody);
+                }
+                button.style.opacity="0.3";
+              }
+          }
+          else if (num==="Next"){
+                if(currentPageNumber<=9){
+                  currentPageNumber+=1;
+                var start = currentPageNumber*10-9;
+                var end = Math.min(data.length,currentPageNumber*10);
+                for (let i= start-1;i<end;i++){
+                    createtr(data[i],tbody);
+                }
+                
+                }
+                else{
+                  var start = currentPageNumber*10-9;
+                var end = Math.min(data.length,currentPageNumber*10);
+                for (let i= start-1;i<end;i++){
+                    createtr(data[i],tbody);
+                }
+                  buttonNext.style.opacity="0.3";
+                }
+          }
+          else{
+              currentPageNumber=Number(num);
+              var start = currentPageNumber*10-9;
+                var end = Math.min(data.length,currentPageNumber*10);
+                for (let i= start-1;i<end;i++){
+                    createtr(data[i],tbody);
+                }
+                buttonNext.style.opacity="1";
+                button.style.opacity="1";
+          }
+        }
+
+        function createtr(data,tbody){
+          var tr = document.createElement("tr");
+          var td = document.createElement('td');
+          td.textContent= data.id;
+          var tdname = document.createElement('td');
+          tdname.textContent= data.name;
+          var tdemail = document.createElement('td');
+          tdemail.textContent= data.email;
+          tr.append(td,tdname,tdemail);
+          tbody.append(tr);
+        }
+        }
+
+    </script>
+</body>
+</html>
